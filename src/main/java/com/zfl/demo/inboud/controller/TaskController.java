@@ -28,7 +28,7 @@ public class TaskController {
 
     @GetMapping
     @Cacheable(key = "'ALL_TASKS'")
-    public List<Task> getAll() {
+    public List<Task> list() {
         return taskService.getAllTasks();
     }
 
@@ -41,7 +41,7 @@ public class TaskController {
         return taskService.create(task);
     }
 
-    @PostMapping("/{id}/pause")
+    @PostMapping("/{id}:pause")
     @Caching(evict = {
             @CacheEvict(key = "#id"),
             @CacheEvict(key = "'ALL_TASKS'")
@@ -50,7 +50,7 @@ public class TaskController {
         taskService.pause(id);
     }
 
-    @PostMapping("/{id}/resume")
+    @PostMapping("/{id}:resume")
     @Caching(evict = {
             @CacheEvict(key = "#id"),
             @CacheEvict(key = "'ALL_TASKS'")

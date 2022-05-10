@@ -27,13 +27,13 @@ public class UserController {
 
     @GetMapping
     @Cacheable(key = "'ALL_USERS'")
-    public List<User> getAllUsers() {
+    public List<User> list() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/{id}")
     @Cacheable(key = "#id")
-    public User getUser(@PathVariable Long id) {
+    public User get(@PathVariable Long id) {
         return userService.getUser(id);
     }
 
@@ -42,7 +42,7 @@ public class UserController {
             @CacheEvict(key = "#user.id"),
             @CacheEvict(key = "'ALL_USERS'")
     })
-    public User createUser(@Valid User user) {
+    public User create(@Valid User user) {
         return userService.createUser(user);
     }
 
