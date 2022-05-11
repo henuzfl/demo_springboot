@@ -1,8 +1,7 @@
 package com.zfl.demo.domain.user;
 
-import com.zfl.demo.domain.BaseEntity;
+import com.zfl.demo.common.BaseEntity;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
