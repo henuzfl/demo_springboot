@@ -1,6 +1,6 @@
 package com.zfl.demo.inboud.controller;
 
-import com.zfl.demo.inboud.controller.payload.LoginRequest;
+import com.zfl.demo.inboud.controller.request.LoginRequest;
 import com.zfl.demo.inboud.controller.vo.JwtResponse;
 import com.zfl.demo.infrastructure.auth.security.jwt.JWTFilter;
 import com.zfl.demo.infrastructure.auth.security.jwt.TokenProvider;

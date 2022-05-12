@@ -1,4 +1,4 @@
-package com.zfl.demo.inboud.controller.payload;
+package com.zfl.demo.inboud.controller.request;
 
 import lombok.Data;
 
