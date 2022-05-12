@@ -8,11 +8,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-/**
- * @Author: zfl
- * @Date: 2020/10/27 14:01
- * @Version: 1.0.0
- */
+
 @Configuration
 public class ThreadPoolConfig {
 

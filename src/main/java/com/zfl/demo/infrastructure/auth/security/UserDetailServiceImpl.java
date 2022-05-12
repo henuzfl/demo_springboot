@@ -2,7 +2,7 @@ package com.zfl.demo.infrastructure.auth.security;
 
 import com.zfl.demo.infrastructure.auth.entity.SysUser;
 import com.zfl.demo.infrastructure.auth.respository.SysUserRepository;
-import com.zfl.demo.infrastructure.auth.vo.UserPrincipal;
+import com.zfl.demo.infrastructure.auth.model.UserPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

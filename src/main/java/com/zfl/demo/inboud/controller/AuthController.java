@@ -1,12 +1,13 @@
 package com.zfl.demo.inboud.controller;
 
 import com.zfl.demo.inboud.controller.payload.LoginRequest;
-import com.zfl.demo.infrastructure.auth.vo.UserPrincipal;
-import io.jsonwebtoken.JwtBuilder;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import com.zfl.demo.inboud.controller.vo.JwtResponse;
+import com.zfl.demo.infrastructure.auth.security.jwt.JWTFilter;
+import com.zfl.demo.infrastructure.auth.security.jwt.TokenProvider;
 import io.swagger.annotations.Api;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,27 +19,38 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import java.util.Date;
 
 @Api(tags = "认证")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final TokenProvider tokenProvider;
+
+    private final AuthenticationManager authenticationManager;
+
+    public AuthController(TokenProvider tokenProvider, AuthenticationManager authenticationManager) {
+        this.tokenProvider = tokenProvider;
+        this.authenticationManager = authenticationManager;
+    }
 
     @PostMapping("/login")
-    public Object login(@Valid @RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getName(), loginRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        JwtBuilder builder = Jwts.builder().setId(userPrincipal.getId().toString()).setSubject(userPrincipal.getUsername()).setIssuedAt(new Date()).signWith(SignatureAlgorithm.HS256, "test").claim("roles", userPrincipal.getRoles()).claim("authorities", userPrincipal.getAuthorities());
-        return builder.compact();
+
+        boolean rememberMe = loginRequest.getRememberMe() != null && loginRequest.getRememberMe();
+        String jwt = tokenProvider.createToken(authentication, rememberMe);
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+
+        return new ResponseEntity<>(new JwtResponse(jwt), httpHeaders, HttpStatus.OK);
     }
 
     @PostMapping("/logout")
-    public void logout(HttpServletRequest request) {
-
+    public ResponseEntity logout(HttpServletRequest request) {
+        request.getSession().invalidate();
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

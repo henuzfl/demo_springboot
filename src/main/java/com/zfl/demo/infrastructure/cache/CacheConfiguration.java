@@ -10,12 +10,6 @@ import org.springframework.context.annotation.Configuration;
 
 import java.util.concurrent.TimeUnit;
 
-/**
- * 为系统提供一些代码上使用的缓存
- *
- * @author icyfenix@gmail.com
- * @date 2020/4/7 17:38
- **/
 @Configuration
 public class CacheConfiguration {
 

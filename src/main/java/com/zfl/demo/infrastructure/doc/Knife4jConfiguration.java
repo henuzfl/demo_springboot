@@ -43,7 +43,7 @@ public class Knife4jConfiguration {
         //设置请求头信息
         List<SecurityScheme> result = new ArrayList<>();
         ApiKey apiKey = new ApiKey("Authorization", "Authorization", "header");
-        result.add((SecurityScheme) apiKey);
+        result.add(apiKey);
         return result;
     }
 

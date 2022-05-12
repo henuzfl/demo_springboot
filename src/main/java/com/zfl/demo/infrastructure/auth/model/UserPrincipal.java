@@ -1,4 +1,4 @@
-package com.zfl.demo.infrastructure.auth.vo;
+package com.zfl.demo.infrastructure.auth.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zfl.demo.infrastructure.auth.entity.SysPermission;

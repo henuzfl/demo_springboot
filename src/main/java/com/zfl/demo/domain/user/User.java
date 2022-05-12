@@ -5,7 +5,10 @@ import lombok.Data;
 import lombok.ToString;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+import javax.persistence.Access;
+import javax.persistence.AccessType;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.validation.constraints.NotEmpty;
 
 @Data

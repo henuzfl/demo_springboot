@@ -1,6 +1,6 @@
 package com.zfl.demo.listener;
 
-import com.zfl.demo.DBRollbackBase;
+import com.zfl.demo.DbRollbackBase;
 import com.zfl.demo.DemoApplication;
 import com.zfl.demo.common.event.SampleEvent;
 import com.zfl.demo.inboud.listener.SampleListener;
@@ -11,7 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest(classes = DemoApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class SampleListenerTest extends DBRollbackBase {
+public class SampleListenerTest extends DbRollbackBase {
 
     @Autowired
     private SampleListener sampleListener;

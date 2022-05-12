@@ -61,7 +61,7 @@ INSERT INTO `sys_role`
 VALUES (3, 'guest', '访客', '2022-05-11 13:56:58', '2022-05-11 13:56:59');
 
 INSERT INTO `sys_user`
-VALUES (1, 'admin', '$2a$10$LTqKTXXRb26SYG3MvFG1UuKhMgc/i6IbUl2RgApiWd39y1EqlXbD6', '2022-05-11 14:03:04',
+VALUES (1, 'admin', '$2a$10$W5qCNFkttxCPZwSoqLIWlOlLnCy5zdUxVjMDObhVcz26QoD1YRaga', '2022-05-11 14:03:04',
         '2022-05-11 14:03:06');
 
 INSERT INTO `sys_user_role`
