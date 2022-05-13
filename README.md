@@ -54,7 +54,7 @@ mvn clean package -DSkipTests docker:build
 2. 运行程序
 
 ```shell
-docker run -p 8080:8080 -d --name demo_springboot demo_springboot
+docker run -p 8080:8080 -d --name demo_springboot demo/demo_sprintboot:dev-1.0-SNAPSHOT
 ```
 
 运行成功后，可以在浏览器中访问：http://localhost:8080/doc.html
