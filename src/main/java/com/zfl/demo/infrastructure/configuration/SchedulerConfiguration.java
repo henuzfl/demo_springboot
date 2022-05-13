@@ -14,8 +14,11 @@ public class SchedulerConfiguration {
 
     private final DataSource dataSource;
 
-    public SchedulerConfiguration(DataSource dataSource) {
+    private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
+
+    public SchedulerConfiguration(DataSource dataSource, ThreadPoolTaskExecutor threadPoolTaskExecutor) {
         this.dataSource = dataSource;
+        this.threadPoolTaskExecutor = threadPoolTaskExecutor;
     }
 
     @Bean
@@ -35,10 +38,6 @@ public class SchedulerConfiguration {
 
     @Bean
     public Executor schedulerThreadPool() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(Runtime.getRuntime().availableProcessors());
-        executor.setMaxPoolSize(Runtime.getRuntime().availableProcessors() * 2);
-        executor.setQueueCapacity(Runtime.getRuntime().availableProcessors() * 2);
-        return executor;
+        return threadPoolTaskExecutor;
     }
 }

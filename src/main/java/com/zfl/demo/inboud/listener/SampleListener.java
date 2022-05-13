@@ -5,10 +5,10 @@ import com.google.common.eventbus.EventBus;
 import com.zfl.demo.common.event.SampleEvent;
 import com.zfl.demo.domain.processor.SampleEventProcessor1;
 import com.zfl.demo.domain.processor.SampleEventProcessor2;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import java.util.concurrent.ExecutorService;
 
 /**
  * 接受消息队列的事件，并使用EventBus进行异步处理
@@ -20,15 +20,15 @@ public class SampleListener {
 
     EventBus eventBus;
 
-    private final ExecutorService executorService;
+    private final ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
-    public SampleListener(ExecutorService executorService) {
-        this.executorService = executorService;
+    public SampleListener(ThreadPoolTaskExecutor threadPoolTaskExecutor) {
+        this.threadPoolTaskExecutor = threadPoolTaskExecutor;
     }
 
     @PostConstruct
     public void initialize() {
-        eventBus = new AsyncEventBus(this.executorService);
+        eventBus = new AsyncEventBus(this.threadPoolTaskExecutor);
         eventBus.register(new SampleEventProcessor1());
         eventBus.register(new SampleEventProcessor2());
     }
