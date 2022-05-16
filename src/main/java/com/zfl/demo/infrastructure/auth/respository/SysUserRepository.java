@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface SysUserRepository extends PagingAndSortingRepository<SysUser, Long> {
 
-    Optional<SysUser> findByName(String name);
+    Optional<SysUser> findByUsername(String username);
 }

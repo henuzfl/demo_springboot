@@ -16,7 +16,7 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 public class SysUser extends BaseEntity {
 
-    private String name;
+    private String username;
     private String password;
 
     @ManyToMany

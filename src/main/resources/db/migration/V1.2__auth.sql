@@ -36,12 +36,12 @@ DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`
 (
     `id`         int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `name`       varchar(63)      NOT NULL COMMENT '用户名',
+    `username`   varchar(63)      NOT NULL COMMENT '用户名',
     `password`   varchar(63)      NOT NULL COMMENT '密码',
     `created_at` datetime(0)      NOT NULL COMMENT '创建时间',
     `updated_at` datetime(0)      NOT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `name` (`name`)
+    UNIQUE KEY `name` (`username`)
 ) COMMENT ='用户表';
 
 

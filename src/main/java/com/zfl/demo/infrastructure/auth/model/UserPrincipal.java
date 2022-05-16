@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 public class UserPrincipal implements UserDetails {
 
     private Long id;
-    private String name;
+    private String username;
     @JsonIgnore
     private String password;
 
@@ -27,7 +27,7 @@ public class UserPrincipal implements UserDetails {
 
     public UserPrincipal(SysUser sysUser) {
         this.setId(sysUser.getId());
-        this.setName(sysUser.getName());
+        this.setUsername(sysUser.getUsername());
         this.setPassword(sysUser.getPassword());
         this.setRoles(sysUser.getRoles().stream().map(SysRole::getName).collect(Collectors.toList()));
         this.setAuthorities(sysUser.getRoles().stream()
@@ -40,7 +40,7 @@ public class UserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.name;
+        return this.username;
     }
 
     @Override
