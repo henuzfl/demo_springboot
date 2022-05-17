@@ -2,14 +2,14 @@ package com.zfl.demo.inboud.controller;
 
 import com.zfl.demo.domain.stock.Stock;
 import com.zfl.demo.domain.stock.StockService;
+import com.zfl.demo.inboud.controller.request.StockPageRequest;
 import io.swagger.annotations.Api;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Api(tags = "库存接口")
 @RestController
@@ -24,9 +24,12 @@ public class StockController {
     }
 
     @GetMapping
-    @Cacheable(key = "'ALL_STOCKS'")
-    public List<Stock> list() {
-        return stockService.getAll();
+    public Page<Stock> list(
+            StockPageRequest stockPageRequest,
+            @RequestParam(required = false, defaultValue = "0") int pageNumber,
+            @RequestParam(required = false, defaultValue = "10") int pageSize
+    ) {
+        return stockService.getList(stockPageRequest.getName(), pageNumber, pageSize);
     }
 
     @GetMapping("/{id}")

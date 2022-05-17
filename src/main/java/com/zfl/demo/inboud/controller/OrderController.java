@@ -2,14 +2,14 @@ package com.zfl.demo.inboud.controller;
 
 import com.zfl.demo.domain.order.Order;
 import com.zfl.demo.domain.order.OrderService;
+import com.zfl.demo.inboud.controller.request.OrderPageRequest;
 import io.swagger.annotations.Api;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Api(tags = "订单接口")
 @RestController
@@ -25,9 +25,12 @@ public class OrderController {
 
 
     @GetMapping
-    @Cacheable(key = "'ALL_ORDERS'")
-    public List<Order> list() {
-        return orderService.getAll();
+    public Page<Order> list(
+            OrderPageRequest orderPageRequest,
+            @RequestParam(required = false, defaultValue = "0") int pageNumber,
+            @RequestParam(required = false, defaultValue = "10") int pageSize
+    ) {
+        return orderService.getList(orderPageRequest.getCommodityName(), pageNumber, pageSize);
     }
 
     @GetMapping("/{id}")
