@@ -51,4 +51,12 @@ public class StockService {
     public void delete(long id) {
         stockRepository.deleteById(id);
     }
+
+    public Stock create(String name, int count, int price) {
+        Stock stock = new Stock();
+        stock.setName(name);
+        stock.setCount(count);
+        stock.setPrice(price);
+        return stockRepository.save(stock);
+    }
 }

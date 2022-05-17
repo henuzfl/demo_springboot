@@ -1,5 +1,6 @@
 package com.zfl.demo.inboud.controller;
 
+import com.mchange.rmi.NotAuthorizedException;
 import com.zfl.demo.domain.order.Order;
 import com.zfl.demo.domain.order.OrderService;
 import com.zfl.demo.inboud.controller.request.OrderPageRequest;
@@ -29,8 +30,8 @@ public class OrderController {
             OrderPageRequest orderPageRequest,
             @RequestParam(required = false, defaultValue = "0") int pageNumber,
             @RequestParam(required = false, defaultValue = "10") int pageSize
-    ) {
-        return orderService.getList(orderPageRequest.getCommodityName(), pageNumber, pageSize);
+    ) throws NotAuthorizedException {
+        return orderService.getList(orderPageRequest.getCommodityName(), orderPageRequest.getStartTime(), orderPageRequest.getEndTime(), pageNumber, pageSize);
     }
 
     @GetMapping("/{id}")

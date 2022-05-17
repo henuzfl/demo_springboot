@@ -1,6 +1,7 @@
 package com.zfl.demo.infrastructure.auth.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zfl.demo.common.BaseEntity;
 import lombok.Data;
 import lombok.ToString;
@@ -17,6 +18,8 @@ import java.util.List;
 public class SysUser extends BaseEntity {
 
     private String username;
+
+    @JsonIgnore
     private String password;
 
     @ManyToMany

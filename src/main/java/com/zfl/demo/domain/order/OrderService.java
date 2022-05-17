@@ -1,8 +1,9 @@
 package com.zfl.demo.domain.order;
 
-import com.google.common.collect.Lists;
+import com.mchange.rmi.NotAuthorizedException;
 import com.zfl.demo.domain.account.Account;
 import com.zfl.demo.domain.stock.Stock;
+import com.zfl.demo.infrastructure.auth.entity.SysUser;
 import com.zfl.demo.infrastructure.auth.service.SecurityService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
@@ -13,6 +14,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.Predicate;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -37,17 +39,20 @@ public class OrderService {
         orderRepository.save(order);
     }
 
-    public List<Order> getAll() {
-        return Lists.newArrayList(orderRepository.findAll());
-    }
-
-    public Page<Order> getList(String commodityName, int pageNum, int pageSize) {
+    public Page<Order> getList(String commodityName, LocalDateTime startTime, LocalDateTime endTime, int pageNum, int pageSize) throws NotAuthorizedException {
+        SysUser sysUser = securityService.loadCurrentSysUser();
         Specification<Order> specification =
                 (root, criteriaQuery, criteriaBuilder) -> {
                     List<Predicate> predicates = new LinkedList<>();
+                    predicates.add(criteriaBuilder.equal(root.get("account").get("sysUser").get("id"), sysUser.getId()));
                     if (StringUtils.isNotBlank(commodityName)) {
-
                         predicates.add(criteriaBuilder.like(root.get("stock").get("name"), "%" + commodityName + "%"));
+                    }
+                    if (null != startTime) {
+                        predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("createdAt"), startTime));
+                    }
+                    if (null != endTime) {
+                        predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("createdAt"), endTime));
                     }
                     return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
                 };
