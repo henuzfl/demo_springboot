@@ -41,7 +41,7 @@ CREATE TABLE `sys_user`
     `created_at` datetime(0)      NOT NULL COMMENT '创建时间',
     `updated_at` datetime(0)      NOT NULL COMMENT '更新时间',
     PRIMARY KEY (`id`),
-    UNIQUE KEY `name` (`username`)
+    UNIQUE KEY (`username`)
 ) COMMENT ='用户表';
 
 

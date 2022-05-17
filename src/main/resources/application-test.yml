@@ -1,7 +1,7 @@
 spring:
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:demo;mode=mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.5.79:3306/demo?characterEncoding=utf8&serverTimezone=CTT
     username: root
     password: dimine2022
     type: com.alibaba.druid.pool.DruidDataSource
