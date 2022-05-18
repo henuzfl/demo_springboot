@@ -59,3 +59,5 @@ custom:
     - /doc.json
     - /auth/login
     - /actuator/**
+  job:
+    path: com/zfl/demo/application/job/

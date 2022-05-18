@@ -24,9 +24,7 @@ git clone https://github.com/henuzfl/demo_springboot.git
 ```
 
 2. 使用idea打开项目
-3. 新建数据库
-4. 修改配置文件的数据库配置
-5. 运行程序
+3. 运行程序（dev环境依赖内存数据库H2）
 
 * 使用maven打包运行
 
@@ -81,9 +79,14 @@ docker run -p 8080:8080 -d --name demo_springboot demo/demo_sprintboot:dev-1.0-S
 * 安全：基于spring security的jwt
 * 定时任务：quartz
 * 数据库脚本管理：flyway
-* 接口日志：knife4j
+* 接口：knife4j
 * 进程内观察者模式：guava的eventbus
 
-### 2. auth模块
+### 2. 示例业务
+业务描述：用户下单，从账户中扣除费用，从库存中扣除库存，生成一个订单。
 
-### 3. 
+目的：
+  1. 一个完整的业务示例，提供代码规范、包管理规范。
+  2. orm框架、mvc架构、缓存等的使用方法参考。
+
+
