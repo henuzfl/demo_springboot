@@ -5,7 +5,7 @@ import org.quartz.*;
 
 /**
  * @author zhangfeilong
- * @description 示例job2
+ * 示例job2
  */
 @PersistJobDataAfterExecution
 @DisallowConcurrentExecution

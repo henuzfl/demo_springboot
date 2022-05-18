@@ -17,7 +17,7 @@ import java.util.List;
 public class Account extends BaseEntity {
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "sys_uer_id", referencedColumnName = "id")
+    @JoinColumn(name = "sys_user_id", referencedColumnName = "id")
     @JsonBackReference
     private SysUser sysUser;
     private Integer money;

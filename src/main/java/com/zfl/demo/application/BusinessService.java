@@ -29,7 +29,7 @@ public class BusinessService {
         this.securityService = securityService;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public void purchase(long stockId, int amount) throws NotAuthorizedException {
         SysUser sysUser = securityService.loadCurrentSysUser();
         Account account = accountService.getBySysUserId(sysUser.getId());

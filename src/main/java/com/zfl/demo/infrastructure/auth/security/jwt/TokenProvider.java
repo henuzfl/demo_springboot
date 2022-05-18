@@ -71,10 +71,11 @@ public class TokenProvider implements InitializingBean {
     }
 
     public Authentication getAuthentication(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(key)
-                .parseClaimsJws(token)
-                .getBody();
+        Claims claims = Jwts.parserBuilder().
+                setSigningKey(key).
+                build().
+                parseClaimsJws(token).
+                getBody();
 
         Collection<? extends GrantedAuthority> authorities = new ArrayList<>();
         if (null != claims.get(AUTHORITIES_KEY) && StringUtils.isNotBlank(claims.get(AUTHORITIES_KEY).toString())) {
@@ -88,7 +89,7 @@ public class TokenProvider implements InitializingBean {
 
     public boolean validateToken(String authToken) {
         try {
-            Jwts.parser().setSigningKey(key).parseClaimsJws(authToken);
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(authToken);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
             log.info("Invalid JWT signature.");
