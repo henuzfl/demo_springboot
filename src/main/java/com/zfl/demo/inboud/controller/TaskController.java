@@ -2,6 +2,7 @@ package com.zfl.demo.inboud.controller;
 
 import com.zfl.demo.domain.task.Task;
 import com.zfl.demo.domain.task.TaskService;
+import com.zfl.demo.inboud.controller.request.TaskAddRequest;
 import io.swagger.annotations.Api;
 import org.quartz.SchedulerException;
 import org.springframework.cache.annotation.CacheConfig;
@@ -34,11 +35,10 @@ public class TaskController {
 
     @PostMapping
     @Caching(evict = {
-            @CacheEvict(key = "#task.id"),
             @CacheEvict(key = "'ALL_TASKS'")
     })
-    public Task create(@Valid Task task) throws SchedulerException {
-        return taskService.create(task);
+    public Task create(@Valid TaskAddRequest taskAddRequest) throws SchedulerException {
+        return taskService.create(taskAddRequest.getGroupName(), taskAddRequest.getName(), taskAddRequest.getCronExpression(), taskAddRequest.getDescription());
     }
 
     @PostMapping("/{id}:pause")

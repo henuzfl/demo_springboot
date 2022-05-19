@@ -1,5 +1,6 @@
 package com.zfl.demo.domain.stock;
 
+import com.zfl.demo.domain.stock.exception.StockNotEnoughException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -8,6 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.Predicate;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,7 +24,7 @@ public class StockService {
     }
 
     public Stock getById(long id) {
-        return stockRepository.findById(id).orElseThrow(() -> new RuntimeException("stock not found"));
+        return stockRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("stock not found"));
     }
 
     public Page<Stock> getList(String name, int pageNum, int pageSize) {
@@ -40,9 +42,9 @@ public class StockService {
 
 
     public void deduct(long id, int count) {
-        Stock stock = stockRepository.findById(id).orElseThrow(() -> new RuntimeException("stock not found"));
+        Stock stock = stockRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("stock not found"));
         if (stock.getCount() < count) {
-            throw new RuntimeException("stock not enough");
+            throw new StockNotEnoughException();
         }
         stock.setCount(stock.getCount() - count);
         stockRepository.save(stock);

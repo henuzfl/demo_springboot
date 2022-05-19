@@ -18,6 +18,8 @@ import java.util.List;
 @EnableSwagger2
 public class Knife4jConfiguration {
 
+    private static final String API_KEY_NAME = "Authorization";
+
     @Bean
     public Docket docket() {
         Docket docket = new Docket(DocumentationType.SWAGGER_2)
@@ -42,7 +44,7 @@ public class Knife4jConfiguration {
     private List<SecurityScheme> securitySchemes() {
         //设置请求头信息
         List<SecurityScheme> result = new ArrayList<>();
-        ApiKey apiKey = new ApiKey("Authorization", "Authorization", "header");
+        ApiKey apiKey = new ApiKey(API_KEY_NAME, API_KEY_NAME, "header");
         result.add(apiKey);
         return result;
     }
@@ -67,7 +69,7 @@ public class Knife4jConfiguration {
                 "global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        result.add(new SecurityReference("Authorization", authorizationScopes));
+        result.add(new SecurityReference(API_KEY_NAME, authorizationScopes));
         return result;
     }
 }

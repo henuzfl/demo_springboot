@@ -13,6 +13,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.criteria.Predicate;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
@@ -61,7 +62,7 @@ public class OrderService {
     }
 
     public Order getById(long id) {
-        return orderRepository.findById(id).orElseThrow(() -> new RuntimeException("order not found"));
+        return orderRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("order not found"));
     }
 
     public void delete(long id) {

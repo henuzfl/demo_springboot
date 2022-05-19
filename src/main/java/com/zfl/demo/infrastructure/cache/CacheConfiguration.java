@@ -16,7 +16,7 @@ public class CacheConfiguration {
     /**
      * 系统默认缓存TTL时间：4分钟
      */
-    public static final long SYSTEM_DEFAULT_EXPIRES = 4 * 60 * 1000;
+    public static final long SYSTEM_DEFAULT_EXPIRES = 4 * 60 * 1_000L;
 
     @Bean
     public CacheManager configCacheManager() {

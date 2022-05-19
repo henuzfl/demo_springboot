@@ -16,7 +16,8 @@ public class SampleEventProcessor2 {
         try {
             TimeUnit.SECONDS.sleep(new Random().nextInt(5));
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.warn("Interrupted!", e);
+            Thread.currentThread().interrupt();
         }
         log.info("SampleEventProcessor2 dealWithEvent: {}", event);
     }

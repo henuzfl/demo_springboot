@@ -1,12 +1,14 @@
 package com.zfl.demo.domain.task;
 
 import com.google.common.collect.Lists;
+import com.zfl.demo.domain.task.exception.JobLoadException;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 @Service
@@ -31,17 +33,23 @@ public class TaskService {
         return Lists.newArrayList(this.taskRepository.findAll());
     }
 
-    public Task create(Task task) throws SchedulerException {
-        if (taskRepository.existsByGroupNameAndName(task.getGroupName(), task.getName())) {
+    public Task create(String groupName, String name, String cronExpression, String description) throws SchedulerException {
+        if (taskRepository.existsByGroupNameAndName(groupName, name)) {
             throw new EntityExistsException("Task already exists");
         }
-        addJobToScheduler(task.getGroupName(), task.getName(), task.getCronExpression());
+        Task task = new Task();
+        task.setGroupName(groupName);
+        task.setName(name);
+        task.setCronExpression(cronExpression);
+        task.setState(TaskState.NORMAL);
+        task.setDescription(description);
+        addJobToScheduler(groupName, name, cronExpression);
         this.taskRepository.save(task);
         return task;
     }
 
     public void pause(long id) throws SchedulerException {
-        Task task = taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Task not found"));
+        Task task = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task not found"));
         if (task.getState() == TaskState.PAUSED) {
             return;
         }
@@ -51,7 +59,7 @@ public class TaskService {
     }
 
     public void resume(long id) throws SchedulerException {
-        Task task = taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Task not found"));
+        Task task = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task not found"));
         if (task.getState() == TaskState.NORMAL) {
             return;
         }
@@ -62,7 +70,7 @@ public class TaskService {
     }
 
     public void delete(long id) throws SchedulerException {
-        Task task = taskRepository.findById(id).orElseThrow(() -> new RuntimeException("Task not found"));
+        Task task = taskRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Task not found"));
         TriggerKey triggerKey = TriggerKey.triggerKey(task.getName(), task.getGroupName());
         scheduler.pauseTrigger(triggerKey);
         scheduler.unscheduleJob(triggerKey);
@@ -89,7 +97,7 @@ public class TaskService {
         try {
             return (Job) Class.forName(className).getDeclaredConstructor().newInstance();
         } catch (Exception e) {
-            throw new RuntimeException("Failed to load job", e);
+            throw new JobLoadException();
         }
     }
 }
