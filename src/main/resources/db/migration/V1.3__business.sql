@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS `account`
 (
     `id`         int(10) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT '主键',
-    `sys_uer_id` int(10) UNSIGNED NOT NULL,
+    `sys_user_id` int(10) UNSIGNED NOT NULL,
     `money`      bigint           NOT NULL,
     `created_at` datetime         NOT NULL,
     `updated_at` datetime         NOT NULL,
